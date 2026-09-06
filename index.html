@@ -11,7 +11,6 @@
         h1 { color: #d81b60; margin-bottom: 5px; font-size: 2rem; }
         p.subtitle { color: #666; margin-bottom: 25px; font-size: 0.95rem; }
         
-        /* الحاوية الرئيسية للمرطبان */
         .jar-wrapper { 
             position: relative; 
             width: 210px; 
@@ -32,7 +31,7 @@
             100% { transform: rotate(0deg); }
         }
 
-        /* البرطمان الزجاجي المصمم خصيصاً بنقاء عالي */
+        /* البرطمان الزجاجي */
         .glass-jar {
             width: 100%;
             height: 100%;
@@ -49,7 +48,6 @@
             padding-bottom: 15px;
         }
 
-        /* الغطاء المعدني الفضي الواقعي */
         .jar-cap {
             position: absolute;
             top: -18px;
@@ -75,7 +73,6 @@
             z-index: 14;
         }
 
-        /* لمعة الزجاج الفاخرة */
         .glass-shine {
             position: absolute;
             top: 15px;
@@ -88,28 +85,31 @@
             pointer-events: none;
         }
 
-        /* محتوى النجوم داخل المرطبان */
+        /* حاوية النجوم 3D المنتفخة */
         .jar-contents {
-            width: 90%;
-            height: 70%;
+            width: 92%;
+            height: 75%;
             z-index: 5;
             display: flex;
             flex-wrap: wrap;
             align-content: flex-end;
             justify-content: center;
-            gap: 5px;
-            padding: 8px;
+            gap: 2px;
+            padding: 5px;
+            overflow: hidden;
         }
 
-        .star-origami {
-            width: 22px;
-            height: 22px;
+        /* نجمة أوريغامي ثلاثية الأبعاد (3D Origami Star) */
+        .origami-3d-star {
+            width: 28px;
+            height: 28px;
             display: inline-block;
-            filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.2));
+            margin: -2px;
+            filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.3));
             transition: transform 0.3s ease;
         }
 
-        /* النجمة القابلة للفتح عند الاهتزاز */
+        /* النجمة المستخرجة 3D */
         .popped-star {
             display: none;
             position: absolute;
@@ -122,10 +122,10 @@
         }
 
         .popped-star-icon {
-            width: 70px;
-            height: 70px;
+            width: 75px;
+            height: 75px;
             margin: 0 auto 10px;
-            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 10px 18px rgba(0,0,0,0.3));
             animation: pulse 1.5s infinite ease-in-out;
         }
 
@@ -156,7 +156,7 @@
             border: 1px solid #f8bbd0;
         }
 
-        /* النافذة المنبثقة للرسالة */
+        /* النافذة المنبثقة */
         .popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px; z-index: 100; backdrop-filter: blur(4px); }
         .popup-content { background: #fff; padding: 30px 20px; border-radius: 20px; max-width: 400px; width: 100%; box-shadow: 0 15px 30px rgba(0,0,0,0.2); animation: popIn 0.3s ease; border: 1px solid #ffe0b2; }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -173,11 +173,9 @@
     <h1>برطمان الرسائل</h1>
     <p class="subtitle">اضغط على البرطمان لهزه واستخراج رسالة اليوم...</p>
 
-    <!-- النجمة الملونة الخارجية القابلة للفتح -->
+    <!-- النجمة 3D المستخرجة -->
     <div class="popped-star" id="poppedStar" onclick="openMessagePopup()">
-        <svg class="popped-star-icon" viewBox="0 0 100 100">
-            <polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="#ff4081" stroke="#fff" stroke-width="2"/>
-        </svg>
+        <div id="poppedStarContainer"></div>
         <div class="click-hint">افتح الورقة لقراءة الرسالة</div>
     </div>
 
@@ -188,7 +186,7 @@
         <div class="glass-jar">
             <div class="glass-shine"></div>
             <div class="jar-contents" id="jarContents">
-                <!-- سيتم توليد النجوم الملونة عبر السكريبت -->
+                <!-- النجوم 3D ستولد بالأسفل -->
             </div>
         </div>
     </div>
@@ -213,81 +211,73 @@
         "اليوم السابع:\nوَمَا خَوْفِي مِنَ المَوْتِ المَحْتُومِ وَإِنَّمَا\nخَوْفِي أَنْ يَمُوتَ الحُبُّ قَبْلِي وَأَنْتَ حَيُّ",
         "اليوم الثامن:\nوَقَدْ أَمُوتُ شَوْقاً وَلا أَرَاكَ\nوَلَكِنَّ الشَّوْقَ يَظَلُّ حَيّاً فِي قَلْبِي",
         "اليوم التاسع:\nأَنْتَ المُنَى وَحَبِيبُ العُمْرِ كُلِّهِ\nوَبِغَيْرِ قُرْبِكَ لا تَطِيبُ الحَيَاةُ",
-        "اليوم العاشر:\nلَوْ كَانَ قَلْبِي مَعِي مَا اخْتَرْتُ غَيْرَكُمُ\nوَلا رَضِيتُ سِوَاكُمْ فِي الهَوَى بَدَلا",
-        "اليوم الحادي عشر:\nفَإِنَّكَ كَاللَّيْلِ الَّذِي هُوَ مُدْرِكِي\nوَإِنْ خِلْتُ أَنَّ المُنْتَأَى عَنْكَ وَاسِعُ",
-        "اليوم الثاني عشر:\nأَتَانِي هَوَاكِ قَبْلَ أَنْ أَعْرِفَ الهَوَى\nفَصَادَفَ قَلْباً خَالِياً فَتَمَكَّنَا",
-        "اليوم الثالث عشر:\nأُحِبُّكَ حُبَّيْنِ حُبَّ الهَوَى\nوَحُبّاً لأَنَّكَ أَهْلٌ لِذَاكَا",
-        "اليوم الرابع عشر:\nوَيَسْأَلُونَنِي عَنْكَ فَقُلْتُ لَهُمْ\nهُوَ الروحُ وَالنَّبْضُ وَالسَّكَنُ",
-        "اليوم الخامس عشر:\nأَنْتَ بدرُ السَّمَاءِ فِي لَيْلِي الطَّوِيلِ\nوَنُورُ العَيْنِ الَّذِي بِهِ أَبْصِرُ",
-        "اليوم السادس عشر:\nلا تَسْأَلْنِي عَنْ سَبَبِ العِشْقِ فَمَا\nلِلْقَلْبِ فِي أَمْرِ المَحَبَّةِ سُلْطَانُ",
-        "اليوم السابع عشر:\nوَإِنِّي لأَجِدُ رِيحَكَ فِي كُلِّ أَرْضٍ\nكَأَنَّ العَالَمَ كُلَّهُ أَنْتَ",
-        "اليوم الثامن عشر:\nسَأَظَلُّ أُحِبُّكَ حَتَّى يَفْنَى العُمْرُ\nوَيَبْقَى الحُبُّ خَالِداً فِي الأَثَرِ",
-        "اليوم التاسع عشر:\nيَا نُورَ عَيْنِي وَيَا بَسْمَةَ عُمْرِي\nمَا جَمَالُ الدُّنْيَا إلا بِمُرُورِكَ",
         "اليوم العشرون:\nخِتَامُهَا مِسْكٌ وَأَنْتَ المِسْكُ كُلُّهُ\nدُمْتَ لِي شَيْئاً جَمِيلاً لا يَنْتَهِي"
     ];
 
-    const starColors = ['#ff4081', '#e040fb', '#7c4dff', '#536def', '#40c4ff', '#1de9b6', '#b2ff59', '#ffd740', '#ff6e40'];
+    // ألوان باستيل مجسمة وواقعية كالورق الحقيقي
+    const colorPairs = [
+        { main: '#ff80ab', dark: '#c51162', light: '#ff4081' }, // وردي
+        { main: '#ffb74d', dark: '#f57c00', light: '#ffe0b2' }, // برتقالي
+        { main: '#fff176', dark: '#fbc02d', light: '#fffde7' }, // أصفر
+        { main: '#81c784', dark: '#388e3c', light: '#c8e6c9' }, // أخضر
+        { main: '#64b5f6', dark: '#1976d2', light: '#bbdefb' }, // أزرق
+        { main: '#ba68c8', dark: '#7b1fa2', light: '#e1bee7' }, // بنفسجي
+        { main: '#ff8a65', dark: '#d84315', light: '#ffccbc' }  // مرجاني
+    ];
 
-    // إنشاء نجوم ملونة داخل البرطمان
-    const jarContents = document.getElementById('jarContents');
-    for (let i = 0; i < 35; i++) {
-        const star = document.createElement('div');
-        star.className = 'star-origami';
-        const color = starColors[Math.floor(Math.random() * starColors.length)];
-        star.innerHTML = `<svg viewBox="0 0 100 100"><polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="${color}"/></svg>`;
-        star.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
-        jarContents.appendChild(star);
+    // دالة بناء نجمة أوريغامي ثلاثية الأبعاد (3D Origami Star SVG)
+    function create3DStarSVG(colorObj, size = 28) {
+        return `
+        <svg class="origami-3d-star" style="width:${size}px; height:${size}px;" viewBox="0 0 100 100">
+            <!-- الوجه الأساسي -->
+            <polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="${colorObj.main}"/>
+            <!-- ظلال وتناغم الأوجه ثلاثية الأبعاد (3D Origami Fold lines) -->
+            <polygon points="50,5 50,70 19,91 30,57 2,36 36,36" fill="${colorObj.dark}" opacity="0.35"/>
+            <polygon points="50,5 64,36 50,70" fill="${colorObj.light}" opacity="0.5"/>
+            <polygon points="98,36 70,57 50,70" fill="${colorObj.dark}" opacity="0.25"/>
+            <polygon points="81,91 50,70 64,36" fill="${colorObj.light}" opacity="0.3"/>
+            <!-- خط ثني الورقة بالمنتصف -->
+            <line x1="50" y1="5" x2="50" y2="70" stroke="rgba(255,255,255,0.6)" stroke-width="2"/>
+        </svg>`;
     }
 
-    // توليد أصوات برمجية ناعمة جداً
+    // توليد النجوم الملونة المجسمة داخل البرطمان
+    const jarContents = document.getElementById('jarContents');
+    for (let i = 0; i < 48; i++) {
+        const wrapper = document.createElement('div');
+        const randomColor = colorPairs[Math.floor(Math.random() * colorPairs.length)];
+        wrapper.innerHTML = create3DStarSVG(randomColor, Math.floor(Math.random() * 6) + 26);
+        const starEl = wrapper.firstElementChild;
+        starEl.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+        jarContents.appendChild(starEl);
+    }
+
+    // تجهيز النجمة المستخرجة ثلاثية الأبعاد
+    document.getElementById('poppedStarContainer').innerHTML = create3DStarSVG(colorPairs[0], 75);
+
+    // صوت هادئ عند الاهتزاز والفتح
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function playShakeSound() {
+    function playSoftSound() {
         if (audioCtx.state === 'suspended') audioCtx.resume();
-        for (let i = 0; i < 4; i++) {
-            setTimeout(() => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(400 + Math.random() * 200, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.05);
-            }, i * 70);
-        }
-    }
-
-    function playPaperSound() {
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const bufferSize = audioCtx.sampleRate * 0.1;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = Math.random() * 2 - 1;
-        }
-        const noise = audioCtx.createBufferSource();
-        noise.buffer = buffer;
-        const filter = audioCtx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.value = 1500;
+        const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-        noise.connect(filter);
-        filter.connect(gain);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+        osc.connect(gain);
         gain.connect(audioCtx.destination);
-        noise.start();
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.08);
     }
 
-    // حساب الأيام تلقائياً
+    // حساب التاريخ
     const startDate = new Date("2026-09-07T00:00:00").getTime(); 
     const today = new Date().getTime();
     let diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
     if (diffDays < 0) diffDays = 0;
-    let currentDay = (diffDays % 20) + 1;
+    let currentDay = (diffDays % messages.length) + 1;
 
     function handleJarClick() {
         const jarWrapper = document.getElementById('jarWrapper');
@@ -295,12 +285,11 @@
         
         poppedStar.classList.remove('show');
         jarWrapper.classList.add('shake-jar');
-        
-        playShakeSound();
+        playSoftSound();
 
-        const stars = document.querySelectorAll('.star-origami');
+        const stars = document.querySelectorAll('.origami-3d-star');
         stars.forEach(s => {
-            s.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg) translateY(${Math.random() * -5}px)`;
+            s.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg) translateY(${Math.random() * -6}px)`;
         });
 
         setTimeout(() => {
@@ -310,7 +299,7 @@
     }
 
     function openMessagePopup() {
-        playPaperSound();
+        playSoftSound();
         document.getElementById('poppedStar').classList.remove('show');
         document.getElementById('day-badge').innerText = "رسالة اليوم " + currentDay;
         document.getElementById('message-text').innerText = messages[currentDay - 1];
