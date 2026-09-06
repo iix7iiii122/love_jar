@@ -11,11 +11,11 @@
         h1 { color: #d81b60; margin-bottom: 5px; font-size: 2rem; }
         p.subtitle { color: #666; margin-bottom: 25px; font-size: 0.95rem; }
         
-        /* الحاوية الرئيسية للمرطبان الواقعي */
+        /* الحاوية الرئيسية للمرطبان */
         .jar-wrapper { 
             position: relative; 
-            width: 240px; 
-            height: 330px; 
+            width: 210px; 
+            height: 300px; 
             margin: 0 auto 30px; 
             cursor: pointer; 
             z-index: 10; 
@@ -32,48 +32,84 @@
             100% { transform: rotate(0deg); }
         }
 
-        /* صورة المرطبان الزجاجي الحقيقي high resolution */
-        .jar-image {
+        /* البرطمان الزجاجي المصمم خصيصاً بنقاء عالي */
+        .glass-jar {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 3;
-            pointer-events: none;
-            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.15));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.4) 100%);
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            border-radius: 20px 20px 50px 50px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.08), inset 0 0 25px rgba(255,255,255,0.9), inset 10px 0 15px rgba(255,255,255,0.5);
+            position: relative;
+            backdrop-filter: blur(2px);
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 15px;
         }
 
-        /* طبقة النجوم الملونة الحقيقية داخل المرطبان */
-        .jar-contents {
+        /* الغطاء المعدني الفضي الواقعي */
+        .jar-cap {
             position: absolute;
-            bottom: 35px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
-            width: 170px;
-            height: 180px;
-            z-index: 2;
+            width: 140px;
+            height: 32px;
+            background: linear-gradient(180deg, #f5f5f5 0%, #bdbdbd 40%, #757575 80%, #e0e0e0 100%);
+            border-radius: 6px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 15;
+        }
+        .jar-cap-threads {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 12px;
+            background: linear-gradient(180deg, #e0e0e0 0%, #9e9e9e 100%);
+            border-radius: 3px;
+            z-index: 14;
+        }
+
+        /* لمعة الزجاج الفاخرة */
+        .glass-shine {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 25px;
+            height: 80%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 10px;
+            z-index: 12;
+            pointer-events: none;
+        }
+
+        /* محتوى النجوم داخل المرطبان */
+        .jar-contents {
+            width: 90%;
+            height: 70%;
+            z-index: 5;
             display: flex;
             flex-wrap: wrap;
             align-content: flex-end;
             justify-content: center;
-            gap: 4px;
-            padding: 10px;
-            overflow: hidden;
-            border-radius: 0 0 30px 30px;
+            gap: 5px;
+            padding: 8px;
         }
 
         .star-origami {
             width: 22px;
             height: 22px;
-            background-size: cover;
             display: inline-block;
-            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.25));
+            filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.2));
             transition: transform 0.3s ease;
         }
 
-        /* النجمة الخارجية القابلة للضغط والفتح */
+        /* النجمة القابلة للفتح عند الاهتزاز */
         .popped-star {
             display: none;
             position: absolute;
@@ -86,8 +122,8 @@
         }
 
         .popped-star-icon {
-            width: 75px;
-            height: 75px;
+            width: 70px;
+            height: 70px;
             margin: 0 auto 10px;
             filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
             animation: pulse 1.5s infinite ease-in-out;
@@ -137,19 +173,23 @@
     <h1>برطمان الرسائل</h1>
     <p class="subtitle">اضغط على البرطمان لهزه واستخراج رسالة اليوم...</p>
 
-    <!-- النجمة الملونة الخارجية المستخرجة -->
+    <!-- النجمة الملونة الخارجية القابلة للفتح -->
     <div class="popped-star" id="poppedStar" onclick="openMessagePopup()">
         <svg class="popped-star-icon" viewBox="0 0 100 100">
-            <polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="#ff4081" stroke="#fff" stroke-width="3"/>
+            <polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="#ff4081" stroke="#fff" stroke-width="2"/>
         </svg>
         <div class="click-hint">افتح الورقة لقراءة الرسالة</div>
     </div>
 
-    <!-- البرطمان الزجاجي الواقعي -->
+    <!-- البرطمان الزجاجي -->
     <div class="jar-wrapper" id="jarWrapper" onclick="handleJarClick()">
-        <img src="https://images.rawpixel.com/image_png_800/2022/10/rawpixel_png_item_6828522_png.png" alt="Glass Jar" class="jar-image">
-        <div class="jar-contents" id="jarContents">
-            <!-- سيتم توليد النجوم الملونة تلقائياً -->
+        <div class="jar-cap"></div>
+        <div class="jar-cap-threads"></div>
+        <div class="glass-jar">
+            <div class="glass-shine"></div>
+            <div class="jar-contents" id="jarContents">
+                <!-- سيتم توليد النجوم الملونة عبر السكريبت -->
+            </div>
         </div>
     </div>
 </div>
@@ -161,10 +201,6 @@
         <button class="close-btn" onclick="closeMessage()">إغلاق</button>
     </div>
 </div>
-
-<!-- أصوات mp3 حقيقية وناعمة للمرج والفتح -->
-<audio id="shakeAudio" src="https://assets.mixkit.co/active_storage/sfx/2070/2070-preview.mp3" preload="auto"></audio>
-<audio id="paperAudio" src="https://assets.mixkit.co/active_storage/sfx/2410/2410-preview.mp3" preload="auto"></audio>
 
 <script>
     const messages = [
@@ -192,7 +228,7 @@
 
     const starColors = ['#ff4081', '#e040fb', '#7c4dff', '#536def', '#40c4ff', '#1de9b6', '#b2ff59', '#ffd740', '#ff6e40'];
 
-    // بناء نجوم ملونة بالداخل
+    // إنشاء نجوم ملونة داخل البرطمان
     const jarContents = document.getElementById('jarContents');
     for (let i = 0; i < 35; i++) {
         const star = document.createElement('div');
@@ -203,7 +239,50 @@
         jarContents.appendChild(star);
     }
 
-    // حساب تاريخ اليوم تلقائياً
+    // توليد أصوات برمجية ناعمة جداً
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playShakeSound() {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        for (let i = 0; i < 4; i++) {
+            setTimeout(() => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400 + Math.random() * 200, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.05);
+            }, i * 70);
+        }
+    }
+
+    function playPaperSound() {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const bufferSize = audioCtx.sampleRate * 0.1;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+        }
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1500;
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        noise.start();
+    }
+
+    // حساب الأيام تلقائياً
     const startDate = new Date("2026-09-07T00:00:00").getTime(); 
     const today = new Date().getTime();
     let diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
@@ -213,19 +292,15 @@
     function handleJarClick() {
         const jarWrapper = document.getElementById('jarWrapper');
         const poppedStar = document.getElementById('poppedStar');
-        const shakeAudio = document.getElementById('shakeAudio');
         
         poppedStar.classList.remove('show');
         jarWrapper.classList.add('shake-jar');
         
-        // تشغيل صوت هز البرطمان الزجاجي الحقيقي
-        shakeAudio.currentTime = 0;
-        shakeAudio.play().catch(() => {});
+        playShakeSound();
 
-        // تحريك النجوم بالداخل
         const stars = document.querySelectorAll('.star-origami');
         stars.forEach(s => {
-            s.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg) translateY(${Math.random() * -6}px)`;
+            s.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg) translateY(${Math.random() * -5}px)`;
         });
 
         setTimeout(() => {
@@ -235,12 +310,7 @@
     }
 
     function openMessagePopup() {
-        const paperAudio = document.getElementById('paperAudio');
-        
-        // تشغيل صوت فتح ورقة ناعم وحقيقي
-        paperAudio.currentTime = 0;
-        paperAudio.play().catch(() => {});
-
+        playPaperSound();
         document.getElementById('poppedStar').classList.remove('show');
         document.getElementById('day-badge').innerText = "رسالة اليوم " + currentDay;
         document.getElementById('message-text').innerText = messages[currentDay - 1];
