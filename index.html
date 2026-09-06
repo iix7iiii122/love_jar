@@ -6,90 +6,162 @@
     <title>جرة الرسائل</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #ffe6eb 0%, #def3f8 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; color: #4a4a4a; }
+        body { background: linear-gradient(135deg, #fce4ec 0%, #e3f2fd 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; color: #4a4a4a; overflow-x: hidden; }
         .container { max-width: 450px; width: 100%; position: relative; }
-        h1 { color: #d63384; margin-bottom: 5px; font-size: 2rem; }
-        p.subtitle { color: #6c757d; margin-bottom: 25px; font-size: 0.95rem; }
+        h1 { color: #d81b60; margin-bottom: 5px; font-size: 2rem; }
+        p.subtitle { color: #666; margin-bottom: 25px; font-size: 0.95rem; }
         
-        /* الجرة وأنيميشن الاهتزاز */
-        .jar-wrapper { position: relative; width: 220px; height: 280px; margin: 0 auto 30px; cursor: pointer; transition: transform 0.2s ease; z-index: 10; }
-        .jar-wrapper:active { transform: scale(0.95); }
+        /* المرطبان الزجاجي */
+        .jar-wrapper { position: relative; width: 230px; height: 320px; margin: 0 auto 30px; cursor: pointer; z-index: 10; }
         
-        .shake-jar { animation: shake 0.5s ease-in-out; }
+        .shake-jar { animation: shake 0.6s ease-in-out; }
 
         @keyframes shake {
             0% { transform: rotate(0deg); }
-            15% { transform: rotate(-12deg); }
-            30% { transform: rotate(12deg); }
+            15% { transform: rotate(-10deg) translateY(-5px); }
+            30% { transform: rotate(10deg) translateY(5px); }
             45% { transform: rotate(-8deg); }
             60% { transform: rotate(8deg); }
             75% { transform: rotate(-4deg); }
             100% { transform: rotate(0deg); }
         }
 
-        .jar { width: 100%; height: 100%; background: rgba(255, 255, 255, 0.45); border: 4px solid #fff; border-radius: 30px 30px 50px 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: relative; overflow: hidden; backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; }
-        .jar-lid { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 130px; height: 25px; background: #e8a0bf; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        
-        .paper-note { background: #fff; padding: 20px 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(214, 51, 132, 0.15); width: 80%; border: 1px dashed #e8a0bf; }
-        .paper-note h3 { color: #d63384; font-size: 1.3rem; margin-bottom: 5px; }
-        
-        /* الورقة الخارجة من الجرة */
-        .popped-paper {
+        .jar { 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(255, 255, 255, 0.35); 
+            border: 5px solid rgba(255, 255, 255, 0.8); 
+            border-radius: 40px 40px 60px 60px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.8); 
+            position: relative; 
+            overflow: hidden; 
+            backdrop-filter: blur(3px); 
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 15px;
+        }
+
+        /* غطاء البرطمان المعدني الفضي */
+        .jar-lid { 
+            position: absolute; 
+            top: -20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 140px; 
+            height: 35px; 
+            background: linear-gradient(180deg, #e0e0e0 0%, #9e9e9e 50%, #757575 100%); 
+            border-radius: 8px; 
+            border: 2px solid #ffffff; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+            z-index: 12;
+        }
+        .jar-lid-threads {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 12px;
+            background: linear-gradient(180deg, #bdbdbd 0%, #757575 100%);
+            border-radius: 4px;
+            z-index: 11;
+        }
+
+        /* محتوى النجوم بالداخل */
+        .stars-container {
+            width: 90%;
+            height: 70%;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-end;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .star-item {
+            width: 24px;
+            height: 24px;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            display: inline-block;
+            transition: transform 0.3s ease;
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* النجمة التي تخرج عند الاهتزاز */
+        .popped-star {
             display: none;
             position: absolute;
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            background: #ffffff;
-            border: 2px solid #d63384;
-            padding: 15px 25px;
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
             cursor: pointer;
             z-index: 20;
-            color: #d63384;
-            font-weight: bold;
-            font-size: 1rem;
+            text-align: center;
         }
 
-        .popped-paper.show {
+        .popped-star-shape {
+            width: 70px;
+            height: 70px;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            background: #ff4081;
+            margin: 0 auto 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .popped-star.show {
             display: block;
-            animation: popUpPaper 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        @keyframes popUpPaper {
+        @keyframes popUp {
             0% { transform: translate(-50%, 50px) scale(0.2); opacity: 0; }
-            100% { transform: translate(-50%, -100px) scale(1.1); opacity: 1; }
+            100% { transform: translate(-50%, -120px) scale(1); opacity: 1; }
         }
 
-        /* نافذة الرسالة النابضة */
+        .click-hint {
+            background: #ffffff;
+            color: #d81b60;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            white-space: nowrap;
+        }
+
+        /* النافذة المنبثقة للرسالة */
         .popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px; z-index: 100; }
         .popup-content { background: #fff; padding: 30px 20px; border-radius: 20px; max-width: 400px; width: 100%; box-shadow: 0 15px 30px rgba(0,0,0,0.2); animation: popIn 0.3s ease; }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
-        .day-badge { background: #ffe6eb; color: #d63384; font-weight: bold; padding: 5px 15px; border-radius: 15px; display: inline-block; margin-bottom: 15px; font-size: 0.9rem; }
+        .day-badge { background: #fce4ec; color: #d81b60; font-weight: bold; padding: 5px 15px; border-radius: 15px; display: inline-block; margin-bottom: 15px; font-size: 0.9rem; }
         .popup-text { font-size: 1.1rem; line-height: 1.7; color: #333; margin-bottom: 20px; white-space: pre-line; }
-        .close-btn { background: #d63384; color: white; border: none; padding: 10px 25px; border-radius: 20px; font-size: 1rem; cursor: pointer; }
+        .close-btn { background: #d81b60; color: white; border: none; padding: 10px 25px; border-radius: 20px; font-size: 1rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <p style="color: #888; font-size: 0.9rem;">إلى الشخص الذي يعني لي الكثير</p>
-    <h1>رسالة لك</h1>
-    <p class="subtitle">اضغط على الجرة للتحقق من رسالة اليوم...</p>
+    <h1>برطمان الرسائل</h1>
+    <p class="subtitle">اضغط على البرطمان لهزه واستخراج رسالة اليوم...</p>
 
-    <!-- الورقة التي تخرج للضغط عليها -->
-    <div class="popped-paper" id="poppedPaper" onclick="openMessagePopup()">
-        اضغط هنا لفتح الرسالة ✉️
+    <!-- النجمة الملونة الخارجية القابلة للفتح -->
+    <div class="popped-star" id="poppedStar" onclick="openMessagePopup()">
+        <div class="popped-star-shape" id="poppedStarShape"></div>
+        <div class="click-hint">اضغط لفتح النجمة الورقية</div>
     </div>
 
+    <!-- المرطبان الزجاجي -->
     <div class="jar-wrapper" id="jarWrapper" onclick="handleJarClick()">
         <div class="jar-lid"></div>
+        <div class="jar-lid-threads"></div>
         <div class="jar">
-            <div class="paper-note">
-                <h3>افتحني</h3>
-                <p style="font-size: 0.8rem; color: #aaa;">بيت شعر يخاطب قلبك</p>
+            <div class="stars-container" id="starsContainer">
+                <!-- سيتم توليد النجوم الملونة عبر السكريبت -->
             </div>
         </div>
     </div>
@@ -104,6 +176,7 @@
 </div>
 
 <script>
+    // قائمة أبيات الشعر الـ 20
     const messages = [
         "اليوم الأول:\nوَإِنِّي لأَهْوَى النَّوْمَ فِي غَيْرِ حِينِهِ\nلَعَلَّ لِقَاءً فِي المَنَامِ يَكُونُ",
         "اليوم الثاني:\nوَمَا كُنْتُ مِمَّنْ يَدْخُلُ العِشْقُ قَلْبَهُ\nوَلَكِنَّ مَنْ يُبْصِرْ جُفُونَكَ يَعْشَقِ",
@@ -127,36 +200,97 @@
         "اليوم العشرون:\nخِتَامُهَا مِسْكٌ وَأَنْتَ المِسْكُ كُلُّهُ\nدُمْتَ لِي شَيْئاً جَمِيلاً لا يَنْتَهِي"
     ];
 
-    // تحديد تاريخ الانطلاق اليوم (7 أيلول / سبتمبر 2026)
+    const colors = ['#ff80ab', '#ff4081', '#7c4dff', '#536def', '#40c4ff', '#1de9b6', '#b2ff59', '#eeff41', '#ffd740', '#ff6e40'];
+
+    // انشاء نجوم ملونة داخل البرطمان
+    const starsContainer = document.getElementById('starsContainer');
+    for (let i = 0; i < 45; i++) {
+        const star = document.createElement('div');
+        star.className = 'star-item';
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        star.style.backgroundColor = randomColor;
+        star.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+        starsContainer.appendChild(star);
+    }
+
+    // توليد أصوات برمجية (Web Audio API) بدون الاعتماد على ملفات خارجية
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playShakeSound() {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300 + Math.random() * 400, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.08);
+            }, i * 80);
+        }
+    }
+
+    function playPaperSound() {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const bufferSize = audioCtx.sampleRate * 0.15;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+        }
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1000;
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        noise.start();
+    }
+
+    // حساب الأيام
     const startDate = new Date("2026-09-07T00:00:00").getTime(); 
     const today = new Date().getTime();
-    
     let diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
     if (diffDays < 0) diffDays = 0;
-    
     let currentDay = (diffDays % 20) + 1;
 
     function handleJarClick() {
         const jarWrapper = document.getElementById('jarWrapper');
-        const poppedPaper = document.getElementById('poppedPaper');
+        const poppedStar = document.getElementById('poppedStar');
+        const poppedStarShape = document.getElementById('poppedStarShape');
         
-        // إعادة إخفاء الورقة إن كانت ظاهرة
-        poppedPaper.classList.remove('show');
-
-        // اهتزاز الجرة
+        poppedStar.classList.remove('show');
         jarWrapper.classList.add('shake-jar');
         
+        // تشغيل صوت اهتزاز الخشخشة
+        playShakeSound();
+
+        // تحريك النجوم بالداخل عند الهز
+        const starItems = document.querySelectorAll('.star-item');
+        starItems.forEach(star => {
+            star.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg) translateY(${Math.random() * -8}px)`;
+        });
+
         setTimeout(() => {
             jarWrapper.classList.remove('shake-jar');
-            // إخراج الورقة من الجرة بعد الاهتزاز
-            poppedPaper.classList.add('show');
-        }, 500);
+            // اختيار لون عشوائي للنجمة الخارجة
+            poppedStarShape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            poppedStar.classList.add('show');
+        }, 600);
     }
 
     function openMessagePopup() {
-        const poppedPaper = document.getElementById('poppedPaper');
-        poppedPaper.classList.remove('show');
-        
+        playPaperSound(); // صوت فتح الورقة
+        document.getElementById('poppedStar').classList.remove('show');
         document.getElementById('day-badge').innerText = "رسالة اليوم " + currentDay;
         document.getElementById('message-text').innerText = messages[currentDay - 1];
         document.getElementById('popup').style.display = 'flex';
