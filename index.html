@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جرة الرسائل ❤️</title>
+    <title>جرة الرسائل</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: linear-gradient(135deg, #ffe6eb 0%, #def3f8 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; color: #4a4a4a; }
@@ -11,20 +11,34 @@
         h1 { color: #d63384; margin-bottom: 5px; font-size: 2rem; }
         p.subtitle { color: #6c757d; margin-bottom: 25px; font-size: 0.95rem; }
         
+        /* الجرة وأنيميشن الاهتزاز */
         .jar-wrapper { position: relative; width: 220px; height: 280px; margin: 0 auto 30px; cursor: pointer; transition: transform 0.2s ease; }
         .jar-wrapper:active { transform: scale(0.95); }
+        
+        .shake-jar { animation: shake 0.5s ease-in-out; }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            15% { transform: rotate(-12deg); }
+            30% { transform: rotate(12deg); }
+            45% { transform: rotate(-8deg); }
+            60% { transform: rotate(8deg); }
+            75% { transform: rotate(-4deg); }
+            100% { transform: rotate(0deg); }
+        }
+
         .jar { width: 100%; height: 100%; background: rgba(255, 255, 255, 0.45); border: 4px solid #fff; border-radius: 30px 30px 50px 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); position: relative; overflow: hidden; backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; }
         .jar-lid { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 130px; height: 25px; background: #e8a0bf; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         
-        .paper-note { background: #fff; padding: 15px 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(214, 51, 132, 0.15); width: 80%; border: 1px dashed #e8a0bf; }
-        .paper-note h3 { color: #d63384; font-size: 1.2rem; margin-top: 5px; }
+        .paper-note { background: #fff; padding: 20px 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(214, 51, 132, 0.15); width: 80%; border: 1px dashed #e8a0bf; }
+        .paper-note h3 { color: #d63384; font-size: 1.3rem; margin-bottom: 5px; }
         
         .popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px; z-index: 100; }
         .popup-content { background: #fff; padding: 30px 20px; border-radius: 20px; max-width: 400px; width: 100%; box-shadow: 0 15px 30px rgba(0,0,0,0.2); animation: popIn 0.3s ease; }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
         .day-badge { background: #ffe6eb; color: #d63384; font-weight: bold; padding: 5px 15px; border-radius: 15px; display: inline-block; margin-bottom: 15px; font-size: 0.9rem; }
-        .popup-text { font-size: 1.1rem; line-height: 1.6; color: #333; margin-bottom: 20px; }
+        .popup-text { font-size: 1.1rem; line-height: 1.7; color: #333; margin-bottom: 20px; white-space: pre-line; }
         .close-btn { background: #d63384; color: white; border: none; padding: 10px 25px; border-radius: 20px; font-size: 1rem; cursor: pointer; }
     </style>
 </head>
@@ -32,16 +46,15 @@
 
 <div class="container">
     <p style="color: #888; font-size: 0.9rem;">إلى الشخص الذي يعني لي الكثير</p>
-    <h1>رسالة لك ❤️</h1>
+    <h1>رسالة لك</h1>
     <p class="subtitle">اضغط على الجرة للتحقق من رسالة اليوم...</p>
 
-    <div class="jar-wrapper" onclick="openJar()">
+    <div class="jar-wrapper" id="jarWrapper" onclick="handleJarClick()">
         <div class="jar-lid"></div>
         <div class="jar">
             <div class="paper-note">
-                <span style="font-size: 1.5rem;">💌</span>
                 <h3>افتحني</h3>
-                <p style="font-size: 0.75rem; color: #aaa;">رسالة جديدة في الجرة</p>
+                <p style="font-size: 0.8rem; color: #aaa;">بيت شعر يخاطب قلبك</p>
             </div>
         </div>
     </div>
@@ -57,34 +70,49 @@
 
 <script>
     const messages = [
-        "اليوم الأول: وجودك بحد ذاته يجعل العالم مكانًا ألطف بكثير. ❤️",
-        "اليوم الثاني: لا تنسَ أن تبتسم، فابتسامتك تغير مجرى يومي كاملًا. ✨",
-        "اليوم الثالث: أتمنى لك يومًا هادئًا تشبه بساطته نقاء قلبك. 🌸",
-        "اليوم الرابع: تذكر دائمًا أن هناك من يفخر بك وبكل خطوة تخطوها. 🌟",
-        "اليوم الخامس: كل يوم تكون فيه موجودًا هو يوم مميز وفريد بالنسبة لي. 💖",
-        "اليوم السادس: خذ نفسًا عميقًا وأكمل يومك بهدوء، أنت قادر على كل شيء. 💪",
-        "اليوم السابع: وجودك هو الهدية الأجمل التي أحمد الله عليها دائمًا. 🎁",
-        "اليوم الثامن: أتمنى لك يومًا مليئًا بالأخبار السعيدة والراحة النفسية. ☕",
-        "اليوم التاسع: تذكر أنك شخص فريد واستثنائي ولست بحاجة لمقارنة نفسك بأحد. ⭐",
-        "اليوم العاشر: وصلنا لنصف الطريق! شكراً لأنك أنت دائماً بطبيعتك الجميلة. ❤️",
-        "اليوم الحادي عشر: سعادتك وراحة بالك تهمانني أكثر مما تتخيل. 😊",
-        "اليوم الثاني عشر: أتمنى لك توفيقًا يلازم كل خطوة تخطوها اليوم. 🍀",
-        "اليوم الثالث عشر: لا تدع أي شيء يكدر صفوك، أنت تستحق كل خير في الدنيا. 🌈",
-        "اليوم الرابع عشر: تفاصيلك الصغير هي ما يجعل منك شخصًا لا يُعوض. ✨",
-        "اليوم الخامس عشر: أنت أعمق بكثير من مجرد شخص عادي في حياتي، أنت كل شيء. 💌",
-        "اليوم السادس عشر: اليوم يسير بشكل أفضل عندما تبدأه بتفاؤل وأمل. ☀️",
-        "اليوم السابع عشر: أتمنى أن تحاط بكل الحب والاهتمام الذي تمنحه لمن حولك. ❤️",
-        "اليوم الثامن عشر: كن فخورًا بنفسك وبكل ما حققته وتصل إليه. 🏆",
-        "اليوم التاسع عشر: أنت الملجأ الهادئ والأمان وسط كل زحام هذا العالم. 🌿",
-        "اليوم العشرون: وأخيرًا، شكراً لكل لحظة جميلة صنعتها معي. أحبك جدًا! ❤️"
+        "اليوم الأول:\nوَإِنِّي لأَهْوَى النَّوْمَ فِي غَيْرِ حِينِهِ\nلَعَلَّ لِقَاءً فِي المَنَامِ يَكُونُ",
+        "اليوم الثاني:\nوَمَا كُنْتُ مِمَّنْ يَدْخُلُ العِشْقُ قَلْبَهُ\nوَلَكِنَّ مَنْ يُبْصِرْ جُفُونَكَ يَعْشَقِ",
+        "اليوم الثالث:\nيَقُولُونَ لِي زِدْتَ اشْتِيَاقاً وَلَوْعَةً\nفَقُلْتُ وَهَلْ يَخْلُو مِنَ الشَّوْقِ مَنْ يَهُوَا؟",
+        "اليوم الرابع:\nوَلَقَدْ ذَكَرْتُكَ وَالرِّمَاحُ نَوَاهِلٌ\nمِنِّي وَبِيضُ الْهِنْدِ تَقْطُرُ مِنْ دَمِي",
+        "اليوم الخامس:\nأَرَاكَ فَتَطِيبُ نَفْسِي وَيَزُولُ هَمِّي\nكَأَنَّكَ لِلرُّوحِ المَرِيضَةِ بَلْسَمُ",
+        "اليوم السادس:\nفَلَيْتَكَ تَحْلُو وَالْحَيَاةُ مَرِيرَةٌ\nوَلَيْتَكَ تَرْضَى وَالأَنَامُ غِضَابُ",
+        "اليوم السابع:\nوَمَا خَوْفِي مِنَ المَوْتِ المَحْتُومِ وَإِنَّمَا\nخَوْفِي أَنْ يَمُوتَ الحُبُّ قَبْلِي وَأَنْتَ حَيُّ",
+        "اليوم الثامن:\nوَقَدْ أَمُوتُ شَوْقاً وَلا أَرَاكَ\nوَلَكِنَّ الشَّوْقَ يَظَلُّ حَيّاً فِي قَلْبِي",
+        "اليوم التاسع:\nأَنْتَ المُنَى وَحَبِيبُ العُمْرِ كُلِّهِ\nوَبِغَيْرِ قُرْبِكَ لا تَطِيبُ الحَيَاةُ",
+        "اليوم العاشر:\nلَوْ كَانَ قَلْبِي مَعِي مَا اخْتَرْتُ غَيْرَكُمُ\nوَلا رَضِيتُ سِوَاكُمْ فِي الهَوَى بَدَلا",
+        "اليوم الحادي عشر:\nفَإِنَّكَ كَاللَّيْلِ الَّذِي هُوَ مُدْرِكِي\nوَإِنْ خِلْتُ أَنَّ المُنْتَأَى عَنْكَ وَاسِعُ",
+        "اليوم الثاني عشر:\nأَتَانِي هَوَاكِ قَبْلَ أَنْ أَعْرِفَ الهَوَى\nفَصَادَفَ قَلْباً خَالِياً فَتَمَكَّنَا",
+        "اليوم الثالث عشر:\nأُحِبُّكَ حُبَّيْنِ حُبَّ الهَوَى\nوَحُبّاً لأَنَّكَ أَهْلٌ لِذَاكَا",
+        "اليوم الرابع عشر:\nوَيَسْأَلُونَنِي عَنْكَ فَقُلْتُ لَهُمْ\nهُوَ الروحُ وَالنَّبْضُ وَالسَّكَنُ",
+        "اليوم الخامس عشر:\nأَنْتَ بدرُ السَّمَاءِ فِي لَيْلِي الطَّوِيلِ\nوَنُورُ العَيْنِ الَّذِي بِهِ أَبْصِرُ",
+        "اليوم السادس عشر:\nلا تَسْأَلْنِي عَنْ سَبَبِ العِشْقِ فَمَا\nلِلْقَلْبِ فِي أَمْرِ المَحَبَّةِ سُلْطَانُ",
+        "اليوم السابع عشر:\nوَإِنِّي لأَجِدُ رِيحَكَ فِي كُلِّ أَرْضٍ\nكَأَنَّ العَالَمَ كُلَّهُ أَنْتَ",
+        "اليوم الثامن عشر:\nسَأَظَلُّ أُحِبُّكَ حَتَّى يَفْنَى العُمْرُ\nوَيَبْقَى الحُبُّ خَالِداً فِي الأَثَرِ",
+        "اليوم التاسع عشر:\nيَا نُورَ عَيْنِي وَيَا بَسْمَةَ عُمْرِي\nمَا جَمَالُ الدُّنْيَا إلا بِمُرُورِكَ",
+        "اليوم العشرون:\nخِتَامُهَا مِسْكٌ وَأَنْتَ المِسْكُ كُلُّهُ\nدُمْتَ لِي شَيْئاً جَمِيلاً لا يَنْتَهِي"
     ];
 
-    // احتساب اليوم ليتغير يوماً بعد يوم
-    const startDate = new Date("2026-09-01").getTime(); 
+    // تحديد تاريخ الانطلاق اليوم (7 أيلول / سبتمبر 2026)
+    const startDate = new Date("2026-09-07T00:00:00").getTime(); 
     const today = new Date().getTime();
-    const diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
     
-    let currentDay = (Math.abs(diffDays) % 20) + 1;
+    let diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+    if (diffDays < 0) diffDays = 0;
+    
+    let currentDay = (diffDays % 20) + 1;
+
+    function handleJarClick() {
+        const jarWrapper = document.getElementById('jarWrapper');
+        
+        // تشغيل الاهتزاز
+        jarWrapper.classList.add('shake-jar');
+        
+        // إظهار الرسالة بعد انتهاء الاهتزاز مباشرة (بعد نصف ثانية)
+        setTimeout(() => {
+            jarWrapper.classList.remove('shake-jar');
+            openJar();
+        }, 500);
+    }
 
     function openJar() {
         document.getElementById('day-badge').innerText = "رسالة اليوم " + currentDay;
