@@ -285,10 +285,22 @@
         osc.stop(now + 0.5);
     }
 
-    const startDate = new Date("2026-09-07T00:00:00").getTime(); 
-    const today = new Date().getTime();
-    let diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+    // المنطق الجديد: الاعتماد على أول تاريخ يفتح فيه المتصفح الخاص بالمستلم الرابط
+    const todayStr = new Date().toDateString();
+    let userStartDate = localStorage.getItem('user_first_visit_date');
+
+    if (!userStartDate) {
+        // تسجيل تاريخ أول فتح للموقع في متصفحه الخاص
+        userStartDate = todayStr;
+        localStorage.setItem('user_first_visit_date', userStartDate);
+    }
+
+    const firstDate = new Date(userStartDate).getTime();
+    const today = new Date(todayStr).getTime();
+    
+    let diffDays = Math.floor((today - firstDate) / (1000 * 60 * 60 * 24));
     if (diffDays < 0) diffDays = 0;
+    
     let currentDay = (diffDays % messages.length) + 1;
 
     function handleJarClick() {
