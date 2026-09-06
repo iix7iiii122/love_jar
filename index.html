@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جرة الرسائل</title>
+    <title>برطمان القلوب والرسائل</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: linear-gradient(135deg, #fce4ec 0%, #e3f2fd 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; color: #4a4a4a; overflow-x: hidden; }
+        body { background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; color: #4a4a4a; overflow-x: hidden; }
         .container { max-width: 450px; width: 100%; position: relative; }
-        h1 { color: #d81b60; margin-bottom: 5px; font-size: 2rem; }
-        p.subtitle { color: #666; margin-bottom: 25px; font-size: 0.95rem; }
+        h1 { color: #e91e63; margin-bottom: 5px; font-size: 2rem; }
+        p.subtitle { color: #888; margin-bottom: 25px; font-size: 0.95rem; }
         
         .jar-wrapper { 
             position: relative; 
             width: 210px; 
-            height: 300px; 
+            height: 310px; 
             margin: 0 auto 30px; 
             cursor: pointer; 
             z-index: 10; 
@@ -35,17 +35,16 @@
         .glass-jar {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.4) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.4) 100%);
             border: 4px solid rgba(255, 255, 255, 0.9);
-            border-radius: 20px 20px 50px 50px;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.08), inset 0 0 25px rgba(255,255,255,0.9), inset 10px 0 15px rgba(255,255,255,0.5);
+            border-radius: 20px 20px 60px 60px;
+            box-shadow: 0 20px 30px rgba(233, 30, 99, 0.12), inset 0 0 25px rgba(255,255,255,0.9);
             position: relative;
             backdrop-filter: blur(2px);
             overflow: hidden;
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            padding-bottom: 15px;
         }
 
         .jar-cap {
@@ -55,29 +54,18 @@
             transform: translateX(-50%);
             width: 140px;
             height: 32px;
-            background: linear-gradient(180deg, #f5f5f5 0%, #bdbdbd 40%, #757575 80%, #e0e0e0 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 50%, #b0b0b0 100%);
             border-radius: 6px;
             border: 2px solid #ffffff;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             z-index: 15;
-        }
-        .jar-cap-threads {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 130px;
-            height: 12px;
-            background: linear-gradient(180deg, #e0e0e0 0%, #9e9e9e 100%);
-            border-radius: 3px;
-            z-index: 14;
         }
 
         .glass-shine {
             position: absolute;
             top: 15px;
             left: 15px;
-            width: 25px;
+            width: 20px;
             height: 80%;
             background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.05) 100%);
             border-radius: 10px;
@@ -85,194 +73,218 @@
             pointer-events: none;
         }
 
-        /* حاوية النجوم 3D المنتفخة */
+        /* القلوب المتراكمة */
         .jar-contents {
-            width: 92%;
-            height: 75%;
+            width: 100%;
+            height: 82%;
             z-index: 5;
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-end;
-            justify-content: center;
-            gap: 2px;
-            padding: 5px;
+            position: relative;
             overflow: hidden;
         }
 
-        /* نجمة أوريغامي ثلاثية الأبعاد (3D Origami Star) */
-        .origami-3d-star {
-            width: 28px;
-            height: 28px;
-            display: inline-block;
-            margin: -2px;
-            filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.3));
+        .stacked-heart {
+            position: absolute;
+            filter: drop-shadow(0px 3px 4px rgba(0,0,0,0.25));
             transition: transform 0.3s ease;
         }
 
-        /* النجمة المستخرجة 3D */
-        .popped-star {
+        /* القلب المستخرج والمتحرك */
+        .popped-container {
             display: none;
             position: absolute;
             top: 35%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
             cursor: pointer;
-            z-index: 20;
+            z-index: 30;
             text-align: center;
         }
 
-        .popped-star-icon {
-            width: 75px;
-            height: 75px;
-            margin: 0 auto 10px;
-            filter: drop-shadow(0 10px 18px rgba(0,0,0,0.3));
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-
-        .popped-star.show {
+        .popped-container.show {
             display: block;
             animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
         @keyframes popUp {
             0% { transform: translate(-50%, 40px) scale(0.2); opacity: 0; }
-            100% { transform: translate(-50%, -110px) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -100px) scale(1); opacity: 1; }
+        }
+
+        /* القلب المنفتح */
+        .interactive-heart {
+            width: 90px;
+            height: 90px;
+            position: relative;
+            margin: 0 auto 10px;
+            perspective: 1000px;
+        }
+
+        .heart-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .heart-base { z-index: 1; }
+        .heart-top { 
+            z-index: 2; 
+            transform-origin: top center;
+        }
+
+        .interactive-heart.open .heart-top {
+            transform: rotateX(-120deg);
+            opacity: 0.8;
         }
 
         .click-hint {
             background: #ffffff;
-            color: #d81b60;
-            padding: 7px 16px;
+            color: #e91e63;
+            padding: 8px 18px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: bold;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(233,30,99,0.25);
             white-space: nowrap;
             border: 1px solid #f8bbd0;
         }
 
-        /* النافذة المنبثقة */
-        .popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px; z-index: 100; backdrop-filter: blur(4px); }
-        .popup-content { background: #fff; padding: 30px 20px; border-radius: 20px; max-width: 400px; width: 100%; box-shadow: 0 15px 30px rgba(0,0,0,0.2); animation: popIn 0.3s ease; border: 1px solid #ffe0b2; }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        /* النافذة المنبثقة للرسالة */
+        .popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; padding: 20px; z-index: 100; backdrop-filter: blur(5px); }
+        .popup-content { background: #fff; padding: 30px 20px; border-radius: 25px; max-width: 380px; width: 100%; box-shadow: 0 15px 35px rgba(233,30,99,0.2); animation: popIn 0.4s ease; border: 2px solid #f8bbd0; }
+        @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
-        .day-badge { background: #fce4ec; color: #d81b60; font-weight: bold; padding: 6px 18px; border-radius: 15px; display: inline-block; margin-bottom: 15px; font-size: 0.9rem; }
-        .popup-text { font-size: 1.15rem; line-height: 1.8; color: #333; margin-bottom: 25px; white-space: pre-line; }
-        .close-btn { background: #d81b60; color: white; border: none; padding: 10px 28px; border-radius: 20px; font-size: 1rem; cursor: pointer; font-weight: bold; }
+        .day-badge { background: #ffe4e1; color: #e91e63; font-weight: bold; padding: 6px 18px; border-radius: 15px; display: inline-block; margin-bottom: 15px; font-size: 0.9rem; }
+        .popup-text { font-size: 1.1rem; line-height: 1.8; color: #333; margin-bottom: 25px; white-space: pre-line; }
+        .close-btn { background: #e91e63; color: white; border: none; padding: 10px 30px; border-radius: 20px; font-size: 1rem; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(233,30,99,0.3); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <p style="color: #888; font-size: 0.9rem;">إلى الشخص الذي يعني لي الكثير</p>
+    <p style="color: #999; font-size: 0.9rem;">إلى الشخص الذي يعني لي الكثير</p>
     <h1>برطمان الرسائل</h1>
-    <p class="subtitle">اضغط على البرطمان لهزه واستخراج رسالة اليوم...</p>
+    <p class="subtitle">اضغط على البرطمان لهزه واستخراج بيت اليوم...</p>
 
-    <!-- النجمة 3D المستخرجة -->
-    <div class="popped-star" id="poppedStar" onclick="openMessagePopup()">
-        <div id="poppedStarContainer"></div>
-        <div class="click-hint">افتح الورقة لقراءة الرسالة</div>
+    <!-- القلب المستخرج -->
+    <div class="popped-container" id="poppedContainer" onclick="openHeartEnvelope()">
+        <div class="interactive-heart" id="interactiveHeart">
+            <div class="heart-layer heart-base">
+                <svg viewBox="0 0 100 100" width="100%" height="100%">
+                    <path d="M50,88 C20,65 5,45 5,28 C5,12 18,3 32,3 C41,3 47,8 50,14 C53,8 59,3 68,3 C82,3 95,12 95,28 C95,45 80,65 50,88 Z" fill="#c2185b"/>
+                </svg>
+            </div>
+            <div class="heart-layer heart-top">
+                <svg viewBox="0 0 100 100" width="100%" height="100%">
+                    <path d="M50,88 C20,65 5,45 5,28 C5,12 18,3 32,3 C41,3 47,8 50,14 C53,8 59,3 68,3 C82,3 95,12 95,28 C95,45 80,65 50,88 Z" fill="#e91e63"/>
+                    <path d="M50,14 L50,88" stroke="#f8bbd0" stroke-width="2" opacity="0.5"/>
+                </svg>
+            </div>
+        </div>
+        <div class="click-hint">افتح القلب لقراءة البيت</div>
     </div>
 
     <!-- البرطمان الزجاجي -->
     <div class="jar-wrapper" id="jarWrapper" onclick="handleJarClick()">
         <div class="jar-cap"></div>
-        <div class="jar-cap-threads"></div>
         <div class="glass-jar">
             <div class="glass-shine"></div>
-            <div class="jar-contents" id="jarContents">
-                <!-- النجوم 3D ستولد بالأسفل -->
-            </div>
+            <div class="jar-contents" id="jarContents"></div>
         </div>
     </div>
 </div>
 
 <div class="popup" id="popup">
     <div class="popup-content">
-        <div class="day-badge" id="day-badge">رسالة اليوم</div>
+        <div class="day-badge" id="day-badge">بيت اليوم</div>
         <p class="popup-text" id="message-text"></p>
         <button class="close-btn" onclick="closeMessage()">إغلاق</button>
     </div>
 </div>
 
 <script>
+    // 20 بيت شعر غزل لشعراء بصيغة المذكر
     const messages = [
-        "اليوم الأول:\nوَإِنِّي لأَهْوَى النَّوْمَ فِي غَيْرِ حِينِهِ\nلَعَلَّ لِقَاءً فِي المَنَامِ يَكُونُ",
-        "اليوم الثاني:\nوَمَا كُنْتُ مِمَّنْ يَدْخُلُ العِشْقُ قَلْبَهُ\nوَلَكِنَّ مَنْ يُبْصِرْ جُفُونَكَ يَعْشَقِ",
-        "اليوم الثالث:\nيَقُولُونَ لِي زِدْتَ اشْتِيَاقاً وَلَوْعَةً\nفَقُلْتُ وَهَلْ يَخْلُو مِنَ الشَّوْقِ مَنْ يَهُوَا؟",
-        "اليوم الرابع:\nوَلَقَدْ ذَكَرْتُكَ وَالرِّمَاحُ نَوَاهِلٌ\nمِنِّي وَبِيضُ الْهِنْدِ تَقْطُرُ مِنْ دَمِي",
-        "اليوم الخامس:\nأَرَاكَ فَتَطِيبُ نَفْسِي وَيَزُولُ هَمِّي\nكَأَنَّكَ لِلرُّوحِ المَرِيضَةِ بَلْسَمُ",
-        "اليوم السادس:\nفَلَيْتَكَ تَحْلُو وَالْحَيَاةُ مَرِيرَةٌ\nوَلَيْتَكَ تَرْضَى وَالأَنَامُ غِضَابُ",
-        "اليوم السابع:\nوَمَا خَوْفِي مِنَ المَوْتِ المَحْتُومِ وَإِنَّمَا\nخَوْفِي أَنْ يَمُوتَ الحُبُّ قَبْلِي وَأَنْتَ حَيُّ",
-        "اليوم الثامن:\nوَقَدْ أَمُوتُ شَوْقاً وَلا أَرَاكَ\nوَلَكِنَّ الشَّوْقَ يَظَلُّ حَيّاً فِي قَلْبِي",
-        "اليوم التاسع:\nأَنْتَ المُنَى وَحَبِيبُ العُمْرِ كُلِّهِ\nوَبِغَيْرِ قُرْبِكَ لا تَطِيبُ الحَيَاةُ",
-        "اليوم العشرون:\nخِتَامُهَا مِسْكٌ وَأَنْتَ المِسْكُ كُلُّهُ\nدُمْتَ لِي شَيْئاً جَمِيلاً لا يَنْتَهِي"
+        "اليوم الأول:\nوَمَا كُنْتُ مِمَّنْ يَدْخُلُ الْعِشْقُ قَلْبَهُ\nوَلَكِنَّ مَنْ يُبْصِرْ جُفُونَكَ يَعْشَقِ\n\n— المتنبي",
+        "اليوم الثاني:\nيَقُولُونَ لِي زِدْتَ اشْتِيَاقاً وَلَوْعَةً\nفَقُلْتُ وَهَلْ يَخْلُو مِنَ الشَّوْقِ مَنْ يَهُوَى؟\n\n— ابن الفارض",
+        "اليوم الثالث:\nأَرَاكَ فَتَطِيبُ نَفْسِي وَيَزُولُ هَمِّي\nكَأَنَّكَ لِلرُّوحِ الْمَرِيضَةِ بَلْسَمُ\n\n— البحتري",
+        "اليوم الرابع:\nوَلَقَدْ ذَكَرْتُكَ وَالرِّمَاحُ نَوَاهِلٌ\nمِنِّي وَبِيضُ الْهِنْدِ تَقْطُرُ مِنْ دَمِي\n\n— عنترة بن شداد",
+        "اليوم الخامس:\nوَإِنِّي لَأَهْوَى النَّوْمَ فِي غَيْرِ حِينِهِ\nلَعَلَّ لِقَاءً فِي الْمَنَامِ يَكُونُ\n\n— قيس بن الملوح",
+        "اليوم السادس:\nأَنْتَ المُنَى وَحَبِيبُ العُمْرِ كُلِّهِ\nوَبِغَيْرِ قُرْبِكَ لا تَطِيبُ الحَيَاةُ\n\n— نزار قباني",
+        "اليوم السابع:\nفَلَيْتَكَ تَحْلُو وَالْحَيَاةُ مَرِيرَةٌ\nوَلَيْتَكَ تَرْضَى وَالأَنَامُ غِضَابُ\n\n— أبو فراس الحمداني",
+        "اليوم الثامن:\nيَا نَاعِسَ الطَّرْفِ كَمْ شَوْقاً يُؤَرِّقُنِي\nوَفِي فُؤَادِي لَهِيبٌ لَيْسَ يَطْفَئُهُ\n\n— أحمد شوقي",
+        "اليوم التاسع:\nوَإِذَا نَظَرْتُ إِلَى عُيُونِكَ لَمْ أَجِدْ\nإِلَّا الأَمَانَ وَمَا تَمَنَّتْ رُوحِيَا\n\n— فاروق جويدة",
+        "اليوم العاشر:\nأَحَبَّكَ قَلْبِي وَالحَيَاةُ جَمِيلَةٌ\nبِقُرْبِكَ يَا مَنْ لا أَرَى غَيْرَهُ حُبَّا\n\n— إيليا أبو ماضي",
+        "اليوم الحادي عشر:\nفَإِنْ جِئْتَ زَادَتْ بِالحَيَاةِ بَهَاجَةٌ\nوَإِنْ غِبْتَ صَارَتْ كُلُّ دُنْيَايَ ظَلْمَاءَ\n\n— ابن زيدون",
+        "اليوم الثاني عشر:\nوَيَسْأَلُونَنِي عَنْكَ وَفِي قَلْبِي غَرَامٌ\nكَأَنَّكَ القَلْبُ وَالقَلْبُ المَنَامُ\n\n— الشاب الظريف",
+        "اليوم الثالث عشر:\nسَأَلْتُ الرِّيحَ عَنْكَ لَعَلَّ رِيحاً\nتَجِيءُ بِرِيحِ مَنْ أَهْوَى جَمِيلًا\n\n— العباس بن الأحنف",
+        "اليوم الرابع عشر:\nيَا بَهْجَةَ الرُّوحِ يَا سِرَّ السَّعَادَةِ فِي\nدُنْيَا تَمَلَّأُ بِالأَحْزَانِ وَالهَمِّ\n\n— خليل مطران",
+        "اليوم الخامس عشر:\nوَقَدْ أَمُوتُ شَوْقاً وَلا أَرَاكَ\nوَلَكِنَّ الشَّوْقَ يَظَلُّ حَيّاً فِي قَلْبِي\n\n— قيس بن ذريح",
+        "اليوم السادس عشر:\nلو كُنتُ أعلَمُ أنَّ الحُبَّ يَقتُلُنِي\nلَأَعدَدْتُ لِي قَبلَ اللِّقَاءِ كَفَنَا\n\n— جميل بثينة",
+        "اليوم السابع عشر:\nوَإِنِّي لَأَسْتَغْشِي وَمَا بِيَ نَعْسَةٌ\nلَعَلَّ خَيَالاً مِنْكَ يَلْقَى خَيَالِيَا\n\n— جميل بثينة",
+        "اليوم الثامن عشر:\nفَمَا كُلُّ مَنْ تَهْوَاهُ يَهْوَاكَ قَلْبُهُ\nوَلا كُلُّ مَنْ صَافَيْتَهُ لَكَ قَدْ صَفَا\n\n— الشافعي",
+        "اليوم التاسع عشر:\nتَرَكْتُ حَبِيبِي لَيْسَ عَنْ قِلًى وَإِنَّمَا\nعَنِ الذَّنْبِ إِذْ أَمْسَى يُشَارِكُهُ القَلْبُ\n\n— الشريف الرضي",
+        "اليوم العشرين:\nخِتَامُهَا مِسْكٌ وَأَنْتَ المِسْكُ كُلُّهُ\nدُمْتَ لِي شَيْئاً جَمِيلاً لا يَنْتَهِي\n\n— الحلاج"
     ];
 
-    // ألوان باستيل مجسمة وواقعية كالورق الحقيقي
-    const colorPairs = [
-        { main: '#ff80ab', dark: '#c51162', light: '#ff4081' }, // وردي
-        { main: '#ffb74d', dark: '#f57c00', light: '#ffe0b2' }, // برتقالي
-        { main: '#fff176', dark: '#fbc02d', light: '#fffde7' }, // أصفر
-        { main: '#81c784', dark: '#388e3c', light: '#c8e6c9' }, // أخضر
-        { main: '#64b5f6', dark: '#1976d2', light: '#bbdefb' }, // أزرق
-        { main: '#ba68c8', dark: '#7b1fa2', light: '#e1bee7' }, // بنفسجي
-        { main: '#ff8a65', dark: '#d84315', light: '#ffccbc' }  // مرجاني
-    ];
+    const redShades = ['#e91e63', '#d81b60', '#c2185b', '#f44336', '#e53935', '#d32f2f', '#ff1744'];
 
-    // دالة بناء نجمة أوريغامي ثلاثية الأبعاد (3D Origami Star SVG)
-    function create3DStarSVG(colorObj, size = 28) {
+    function createHeartSVG(color, size) {
         return `
-        <svg class="origami-3d-star" style="width:${size}px; height:${size}px;" viewBox="0 0 100 100">
-            <!-- الوجه الأساسي -->
-            <polygon points="50,5 64,36 98,36 70,57 81,91 50,70 19,91 30,57 2,36 36,36" fill="${colorObj.main}"/>
-            <!-- ظلال وتناغم الأوجه ثلاثية الأبعاد (3D Origami Fold lines) -->
-            <polygon points="50,5 50,70 19,91 30,57 2,36 36,36" fill="${colorObj.dark}" opacity="0.35"/>
-            <polygon points="50,5 64,36 50,70" fill="${colorObj.light}" opacity="0.5"/>
-            <polygon points="98,36 70,57 50,70" fill="${colorObj.dark}" opacity="0.25"/>
-            <polygon points="81,91 50,70 64,36" fill="${colorObj.light}" opacity="0.3"/>
-            <!-- خط ثني الورقة بالمنتصف -->
-            <line x1="50" y1="5" x2="50" y2="70" stroke="rgba(255,255,255,0.6)" stroke-width="2"/>
+        <svg class="stacked-heart" style="width:${size}px; height:${size}px;" viewBox="0 0 100 100">
+            <path d="M50,88 C20,65 5,45 5,28 C5,12 18,3 32,3 C41,3 47,8 50,14 C53,8 59,3 68,3 C82,3 95,12 95,28 C95,45 80,65 50,88 Z" fill="${color}"/>
+            <path d="M30,15 C20,15 12,22 12,32" stroke="rgba(255,255,255,0.4)" stroke-width="4" stroke-linecap="round" fill="none"/>
         </svg>`;
     }
 
-    // توليد النجوم الملونة المجسمة داخل البرطمان
     const jarContents = document.getElementById('jarContents');
-    for (let i = 0; i < 48; i++) {
+    const totalHearts = 65;
+
+    for (let i = 0; i < totalHearts; i++) {
+        const color = redShades[Math.floor(Math.random() * redShades.length)];
+        const size = Math.floor(Math.random() * 12) + 32; 
+        
         const wrapper = document.createElement('div');
-        const randomColor = colorPairs[Math.floor(Math.random() * colorPairs.length)];
-        wrapper.innerHTML = create3DStarSVG(randomColor, Math.floor(Math.random() * 6) + 26);
-        const starEl = wrapper.firstElementChild;
-        starEl.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
-        jarContents.appendChild(starEl);
+        wrapper.innerHTML = createHeartSVG(color, size);
+        const heart = wrapper.firstElementChild;
+
+        const bottomPos = Math.random() * 85; 
+        const leftPos = Math.random() * 75 + 5; 
+        const rotation = Math.random() * 80 - 40; 
+
+        heart.style.bottom = `${bottomPos}%`;
+        heart.style.left = `${leftPos}%`;
+        heart.style.transform = `rotate(${rotation}deg)`;
+        heart.style.zIndex = Math.floor(bottomPos);
+
+        jarContents.appendChild(heart);
     }
 
-    // تجهيز النجمة المستخرجة ثلاثية الأبعاد
-    document.getElementById('poppedStarContainer').innerHTML = create3DStarSVG(colorPairs[0], 75);
-
-    // صوت هادئ عند الاهتزاز والفتح
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function playSoftSound() {
+    function playSoftChime() {
         if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        const now = audioCtx.currentTime;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
+
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.exponentialRampToValueAtTime(1760, now + 0.3);
+
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.08);
+
+        osc.start(now);
+        osc.stop(now + 0.5);
     }
 
-    // حساب التاريخ
     const startDate = new Date("2026-09-07T00:00:00").getTime(); 
     const today = new Date().getTime();
     let diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
@@ -281,29 +293,41 @@
 
     function handleJarClick() {
         const jarWrapper = document.getElementById('jarWrapper');
-        const poppedStar = document.getElementById('poppedStar');
+        const poppedContainer = document.getElementById('poppedContainer');
+        const interactiveHeart = document.getElementById('interactiveHeart');
         
-        poppedStar.classList.remove('show');
+        interactiveHeart.classList.remove('open');
+        poppedContainer.classList.remove('show');
+        
         jarWrapper.classList.add('shake-jar');
-        playSoftSound();
+        playSoftChime();
 
-        const stars = document.querySelectorAll('.origami-3d-star');
-        stars.forEach(s => {
-            s.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg) translateY(${Math.random() * -6}px)`;
+        const hearts = document.querySelectorAll('.stacked-heart');
+        hearts.forEach(h => {
+            const currentRot = h.style.transform;
+            h.style.transform = `${currentRot} translateY(-4px)`;
+            setTimeout(() => {
+                h.style.transform = currentRot;
+            }, 200);
         });
 
         setTimeout(() => {
             jarWrapper.classList.remove('shake-jar');
-            poppedStar.classList.add('show');
+            poppedContainer.classList.add('show');
         }, 500);
     }
 
-    function openMessagePopup() {
-        playSoftSound();
-        document.getElementById('poppedStar').classList.remove('show');
-        document.getElementById('day-badge').innerText = "رسالة اليوم " + currentDay;
-        document.getElementById('message-text').innerText = messages[currentDay - 1];
-        document.getElementById('popup').style.display = 'flex';
+    function openHeartEnvelope() {
+        playSoftChime();
+        const interactiveHeart = document.getElementById('interactiveHeart');
+        interactiveHeart.classList.add('open');
+
+        setTimeout(() => {
+            document.getElementById('poppedContainer').classList.remove('show');
+            document.getElementById('day-badge').innerText = "بيت اليوم " + currentDay;
+            document.getElementById('message-text').innerText = messages[currentDay - 1];
+            document.getElementById('popup').style.display = 'flex';
+        }, 400);
     }
 
     function closeMessage() {
